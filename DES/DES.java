@@ -147,39 +147,24 @@ class DES {
 //                byte[] b = text.getBytes();
 		String input = convertStringToHex(text);
 //                String input = new Scanner(System.in).nextLine();
-		int inputBits[] = new int[64];
+		
 		// inputBits will store the 64 bits of the input as a an int array of
 		// size 64. This program uses int arrays to store bits, for the sake
 		// of simplicity. For efficient programming, use long data type. But
 		// it increases program complexity which is unnecessary for this
 		// context.
                 
-                int length = input.length();
-                if (input.length() < 16){
-                    System.out.println(input.length());
-                    for (int i = 0; i < 16 - length; i++) {
-                        input = 0 + input;
-                    }
-                }
-                
                 System.out.println(input);
-		for(int i=0 ; i < 16 ; i++) {
-			// For every character in the 16 bit input, we get its binary value
-			// by first parsing it into an int and then converting to a binary
-			// string
-			String s = Integer.toBinaryString(Integer.parseInt(input.charAt(i) + "", 16));
-			
-			// Java does not add padding zeros, i.e. 5 is returned as 111 but
-			// we require 0111. Hence, this while loop adds padding 0's to the
-			// binary value.
-			while(s.length() < 4) {
-				s = "0" + s;
-			}
-			// Add the 4 bits we have extracted into the array of bits.
-			for(int j=0 ; j < 4 ; j++) {
-				inputBits[(4*i)+j] = Integer.parseInt(s.charAt(j) + "");
-			}
-		}
+                Stack<String> stk = cutTo16Bytes(input);
+                
+//                while (!stk.isEmpty()){
+//                    System.out.println(stk.pop());
+//                }
+                
+                Stack<int[]> inputBits = new Stack();
+                while (!stk.isEmpty()){
+                    inputBits.push(paddingZeroEachByte(stk.pop()));
+                }
 		
 		// Similar process is followed for the 16 bit key
 		System.out.println("Enter the key as a 16 character hexadecimal value:");
@@ -195,24 +180,20 @@ class DES {
 			}
 		}
 		
+                
+                Stack<int[]> outputBits = new Stack();
 		// permute(int[] inputBits, int[] keyBits, boolean isDecrypt)
 		// method is used here. This allows encryption and decryption to be
 		// done in the same method, reducing code.
-		System.out.println("\n+++ ENCRYPTION +++");
-		int outputBits[] = permute(inputBits, keyBits, false);
-		System.out.println("\n+++ DECRYPTION +++");
-		int decBits[] = permute(outputBits, keyBits, true);
-                
-                System.out.println(inputBits.length);
-                for (int i = 0; i < inputBits.length; i++) {
-                    System.out.print(inputBits[i]);
-                
+                System.out.println("\n+++ ENCRYPTION +++");
+                while (!inputBits.isEmpty()){
+                    outputBits.push(permute(inputBits.pop(), keyBits, false));
                 }
-                System.out.println();
-                System.out.println(outputBits.length);
-                for (int i = 0; i < outputBits.length; i++) {
-                    System.out.print(outputBits[i]);
+		
+		System.out.println("\n+++ DECRYPTION +++");
                 
+                while (!outputBits.isEmpty()){
+                    permute(outputBits.pop(), keyBits, true);
                 }
 	}
         
@@ -353,6 +334,8 @@ class DES {
                 System.out.println(convertHexToString(hex));
 		return finalOutput;
 	}
+        
+      
 	
 	private static int[] KS(int round, int[] key) {
 		// The KS (Key Structure) function generates the round keys.
@@ -486,4 +469,55 @@ class DES {
 		}
 		System.out.println();
 	}
+        
+          public static String padding(String hex){
+            int length = hex.length();
+            if (hex.length() < 16){
+                    System.out.println(hex.length());
+                    for (int i = 0; i < 16 - length; i++) {
+                        hex = 0 + hex;
+                    }
+                }
+            return hex;
+        }
+        
+        public static Stack<String> cutTo16Bytes(String input){
+            int length = 64;
+            Stack<String> stack = new Stack();
+            while(input.length() >= 16){
+                String input64 = input.substring(input.length() - 16, input.length());
+                stack.push(input64);
+                input = input.substring(0, (input.length() - 16));
+            }
+//            String str = stack.pop();
+            
+            if(input.length() > 0){
+                input = padding(input);
+                stack.push(input);
+            }
+            return stack;  
+        }
+        
+        public static int[] paddingZeroEachByte(String input){
+            int inputBits[] = new int[64];
+            for(int i=0 ; i < 16 ; i++) {
+			// For every character in the 16 bit input, we get its binary value
+			// by first parsing it into an int and then converting to a binary
+			// string
+			String s = Integer.toBinaryString(Integer.parseInt(input.charAt(i) + "", 16));
+			
+			// Java does not add padding zeros, i.e. 5 is returned as 111 but
+			// we require 0111. Hence, this while loop adds padding 0's to the
+			// binary value.
+			while(s.length() < 4) {
+				s = "0" + s;
+			}
+			// Add the 4 bits we have extracted into the array of bits.
+			for(int j=0 ; j < 4 ; j++) {
+				inputBits[(4*i)+j] = Integer.parseInt(s.charAt(j) + "");
+			}
+		}
+            
+            return inputBits;
+        }
 }
