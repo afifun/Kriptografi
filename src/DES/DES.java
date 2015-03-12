@@ -159,8 +159,8 @@ public class DES {
 		System.out.println("Enter the input as a 16 character hexadecimal value:");
                 
 //		String text = new Scanner(System.in).nextLine();
-                InputStream is = new FileInputStream("e:/foto.jpg");
-                Path path = Paths.get("e:/foto.jpg");
+                InputStream is = new FileInputStream("C:\\Users\\envy dv4\\Documents\\GitHub\\Kriptografi\\src\\DES\\test.png");
+                Path path = Paths.get("C:\\Users\\envy dv4\\Documents\\GitHub\\Kriptografi\\src\\DES\\test.png");
 //                System.out.println(text);
                 byte[] bytes = Files.readAllBytes(path);
                     StringBuilder sb = new StringBuilder();
@@ -224,6 +224,11 @@ public class DES {
                 }
                 
                 System.out.println(eHex);
+                byte[] eb = hexStringToByteArray(eHex);
+                
+                
+                Path path1 = Paths.get("C:\\Users\\envy dv4\\Documents\\GitHub\\Kriptografi\\src\\DES\\test4.png");
+                Files.write(path1, eb); 
                 System.out.println("\n+++ DECRYPTION +++");
                 
                 while (!inputBitsToDecrypt.isEmpty()){
@@ -243,8 +248,8 @@ public class DES {
                 byte[] b = hexStringToByteArray(dhex);
                 
                 
-                Path path1 = Paths.get("e:/foto3.jpg");
-                Files.write(path1, b); //creates, overwrites
+                Path path2 = Paths.get("C:\\Users\\envy dv4\\Documents\\GitHub\\Kriptografi\\src\\DES\\test3.png");
+                Files.write(path2, b); //creates, overwrites
 //                BufferedImage imag=ImageIO.read(new ByteArrayInputStream(b));
 //		ImageIO.write(imag, "jpg", new File("e:\\foto2.jpg"));
                 
@@ -263,7 +268,7 @@ public class DES {
 //                String input = new Scanner(System.in).nextLine();
                  System.out.println(sb2.toString());
                 
-                PrintStream out = new PrintStream("e:/foto2.jpg");
+                PrintStream out = new PrintStream("C:\\Users\\envy dv4\\Documents\\GitHub\\Kriptografi\\src\\DES\\test2.png");
 //                out.print(convertHexToString(dhex));
 	}
         
