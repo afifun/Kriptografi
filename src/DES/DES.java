@@ -15,6 +15,7 @@ import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import javax.imageio.ImageIO;
@@ -159,9 +160,9 @@ public class DES {
                 
 //		String text = new Scanner(System.in).nextLine();
                 InputStream is = new FileInputStream("e:/foto.jpg");
-                String text = readFile("e:/foto.jpg", StandardCharsets.US_ASCII);
+                Path path = Paths.get("e:/foto.jpg");
 //                System.out.println(text);
-                byte[] bytes = text.getBytes();
+                byte[] bytes = Files.readAllBytes(path);
                     StringBuilder sb = new StringBuilder();
                     for (byte b : bytes) {
                         sb.append(String.format("%02X", b));
@@ -242,9 +243,8 @@ public class DES {
                 byte[] b = hexStringToByteArray(dhex);
                 
                 
-                FileOutputStream fileOuputStream = new FileOutputStream("e:/foto3.jpg"); 
-                fileOuputStream.write(b);
-                fileOuputStream.close();
+                Path path1 = Paths.get("e:/foto3.jpg");
+                Files.write(path1, b); //creates, overwrites
 //                BufferedImage imag=ImageIO.read(new ByteArrayInputStream(b));
 //		ImageIO.write(imag, "jpg", new File("e:\\foto2.jpg"));
                 
