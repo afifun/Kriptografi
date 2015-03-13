@@ -35,8 +35,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
- * @author fariz.ikhwantri -1106002330
- * @author muhammad.hanif.naufal - 1106053653
+ * @author moh.afifun.naily - 1106016802
+ * @author haris.dwi - 1206239011
  */
 public class DESStreamCipher extends javax.swing.JFrame {
 
@@ -47,7 +47,7 @@ public class DESStreamCipher extends javax.swing.JFrame {
     public DES des;
 
     /**
-     * Creates new form RC4StreamChipher
+     * Creates new form DESStreamChipher
      */
     public DESStreamCipher() {
         initComponents();
