@@ -43,8 +43,8 @@
         <Container class="javax.swing.JPanel" name="EncryptionPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="RC4 Encryption">
-                <Property name="tabTitle" type="java.lang.String" value="RC4 Encryption"/>
+              <JTabbedPaneConstraints tabName="DES Encryption">
+                <Property name="tabTitle" type="java.lang.String" value="DES Encryption"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -165,7 +165,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="copyrightLabelEnkripsi">
               <Properties>
-                <Property name="text" type="java.lang.String" value="@author : Fariz Ikhwantri &amp; Muhammad Hanif N"/>
+                <Property name="text" type="java.lang.String" value="@author : Moh. Afifun Naily &amp; Haris Dwi Prakoso"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -173,8 +173,8 @@
         <Container class="javax.swing.JPanel" name="DecryptionPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="RC4 Decryption">
-                <Property name="tabTitle" type="java.lang.String" value="RC4 Decryption"/>
+              <JTabbedPaneConstraints tabName=" DES Decryption">
+                <Property name="tabTitle" type="java.lang.String" value=" DES Decryption"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -274,7 +274,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="CopyrightLabelDekripsi">
               <Properties>
-                <Property name="text" type="java.lang.String" value="@author : Fariz Ikhwantri &amp; Muhammad Hanif N"/>
+                <Property name="text" type="java.lang.String" value="@author : Moh. Afifun Naily &amp; Haris Dwi Prakoso"/>
               </Properties>
             </Component>
           </SubComponents>

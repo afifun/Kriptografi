@@ -159,10 +159,10 @@ public class DES {
 		System.out.println("Enter the input as a 16 character hexadecimal value:");
                 
 //		String text = new Scanner(System.in).nextLine();
-                InputStream is = new FileInputStream("C:\\Users\\envy dv4\\Documents\\GitHub\\Kriptografi\\src\\DES\\test.png");
-                Path path = Paths.get("C:\\Users\\envy dv4\\Documents\\GitHub\\Kriptografi\\src\\DES\\test.png");
+//                InputStream is = new FileInputStream("C:\\Users\\envy dv4\\Documents\\GitHub\\Kriptografi\\src\\DES\\test.png");
+                  Path path = Paths.get("e:/nama.txt");
 //                System.out.println(text);
-                byte[] bytes = Files.readAllBytes(path);
+                    byte[] bytes = Files.readAllBytes(path);
                     StringBuilder sb = new StringBuilder();
                     for (byte b : bytes) {
                         sb.append(String.format("%02X", b));
@@ -223,13 +223,22 @@ public class DES {
                     inputBitsToDecrypt.add(paddingZeroEachByte(outputHex.pop()));
                 }
                 
-                System.out.println(eHex);
+                System.out.println("encrypted hex : " + eHex);
                 byte[] eb = hexStringToByteArray(eHex);
                 
                 
-                Path path1 = Paths.get("C:\\Users\\envy dv4\\Documents\\GitHub\\Kriptografi\\src\\DES\\test4.png");
-                Files.write(path1, eb); 
+                Path path1 = Paths.get("e:/result");
+                Files.write(path1, eb);
+                
                 System.out.println("\n+++ DECRYPTION +++");
+                
+                int[] x = inputBitsToDecrypt.peek();
+                
+                for (int i : x){
+                    System.out.print(i);
+                }
+                System.out.println("");
+                
                 
                 while (!inputBitsToDecrypt.isEmpty()){
                     outputHex.push(permute(inputBitsToDecrypt.pop(), keyBits, true));
@@ -244,11 +253,11 @@ public class DES {
                 
                 
 //                System.out.println(convertHexToString(dhex));
-                System.out.println(dhex);
+                System.out.println("decryption hex : " + dhex);
                 byte[] b = hexStringToByteArray(dhex);
                 
                 
-                Path path2 = Paths.get("C:\\Users\\envy dv4\\Documents\\GitHub\\Kriptografi\\src\\DES\\test3.png");
+                Path path2 = Paths.get("e:/result2");
                 Files.write(path2, b); //creates, overwrites
 //                BufferedImage imag=ImageIO.read(new ByteArrayInputStream(b));
 //		ImageIO.write(imag, "jpg", new File("e:\\foto2.jpg"));
@@ -268,7 +277,7 @@ public class DES {
 //                String input = new Scanner(System.in).nextLine();
                  System.out.println(sb2.toString());
                 
-                PrintStream out = new PrintStream("C:\\Users\\envy dv4\\Documents\\GitHub\\Kriptografi\\src\\DES\\test2.png");
+//                PrintStream out = new PrintStream("C:\\Users\\envy dv4\\Documents\\GitHub\\Kriptografi\\src\\DES\\test2.png");
 //                out.print(convertHexToString(dhex));
 	}
         
@@ -305,7 +314,7 @@ public class DES {
 	  return hex.toString();
   }
 	
-	private static String permute(int[] inputBits, int[] keyBits, boolean isDecrypt) {
+	public static String permute(int[] inputBits, int[] keyBits, boolean isDecrypt) {
 		// Initial permutation step takes input bits and permutes into the
 		// newBits array
 		int newBits[] = new int[inputBits.length];

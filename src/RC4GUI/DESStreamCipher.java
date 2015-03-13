@@ -351,7 +351,7 @@ public class RC4StreamCipher extends javax.swing.JFrame {
         //Handle input key
         try {
             keyByte = Files.readAllBytes(key.toPath());
-            if (keyByte.length < 16 || keyByte.length > 256) {
+            if (keyByte.length < 16 || keyByte.length > 16) {
                 JOptionPane.showMessageDialog(this, "Key harus berukuran 16 - 256 byte", "Kesalahan panjang input key ", JOptionPane.ERROR_MESSAGE);
                 return;
             }
