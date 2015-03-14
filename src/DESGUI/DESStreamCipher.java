@@ -6,25 +6,21 @@
 package DESGUI;
 
 import DES.DES;
-import static DES.DES.cutTo16Bytes;
+import static DES.DES.convertBytestoHexa;
+import static DES.DES.cutTo16Hexa;
+import static DES.DES.generate64BitKey;
 import static DES.DES.hexStringToByteArray;
-import static DES.DES.paddingZeroEachByte;
+import static DES.DES.paddingZeroEachHexa;
 import static DES.DES.removePadding;
 import static DES.DES.permute;
 import java.awt.Desktop;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Scanner;
 import java.util.Stack;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -250,11 +246,9 @@ public class DESStreamCipher extends javax.swing.JFrame {
         int ret = fc.showOpenDialog(null);
 
         if (ret == JFileChooser.APPROVE_OPTION) {
-//            FileFilter filter = new FileNameExtensionFilter("Text File", "txt");
-//            fc.setFileFilter(filter);
             File file = fc.getSelectedFile();
             if (file == null) {
-                JOptionPane.showMessageDialog(this, "Tipe file harus berupa text file (.txt)", "Input Salah", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Pastikan file yang inputkan benar", "Input Salah", JOptionPane.ERROR_MESSAGE);
             } else {
                 String filename = file.getAbsolutePath();
                 PlaintextLabel.setText(filename);
@@ -268,8 +262,8 @@ public class DESStreamCipher extends javax.swing.JFrame {
         int ret = fc.showOpenDialog(null);
 
         if (ret == JFileChooser.APPROVE_OPTION) {
-//            FileFilter filter = new FileNameExtensionFilter("Text File", "txt");
-//            fc.setFileFilter(filter);
+            FileFilter filter = new FileNameExtensionFilter("Text File", "txt");
+            fc.setFileFilter(filter);
             File file = fc.getSelectedFile();
             if (file == null) {
                 JOptionPane.showMessageDialog(this, "Tipe file harus berupa text file (.txt)", "Input Salah", JOptionPane.ERROR_MESSAGE);
@@ -286,11 +280,10 @@ public class DESStreamCipher extends javax.swing.JFrame {
         int ret = fc.showOpenDialog(null);
 
         if (ret == JFileChooser.APPROVE_OPTION) {
-//            FileFilter filter = new FileNameExtensionFilter("Text File", "txt");
-//            fc.setFileFilter(filter);
+
             File file = fc.getSelectedFile();
             if (file == null) {
-                JOptionPane.showMessageDialog(this, "Tipe file harus berupa text file (.txt)", "Input Salah", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Pastikan file yang inputkan benar", "Input Salah", JOptionPane.ERROR_MESSAGE);
             } else {
                 String filename = file.getAbsolutePath();
                 CiphertextLabel.setText(filename);
@@ -305,8 +298,8 @@ public class DESStreamCipher extends javax.swing.JFrame {
         int ret = fc.showOpenDialog(null);
 
         if (ret == JFileChooser.APPROVE_OPTION) {
-//            FileFilter filter = new FileNameExtensionFilter("Text File", "txt");
-//            fc.setFileFilter(filter);
+            FileFilter filter = new FileNameExtensionFilter("Text File", "txt");
+            fc.setFileFilter(filter);
             File file = fc.getSelectedFile();
             if (file == null) {
                 JOptionPane.showMessageDialog(this, "Tipe file harus berupa text file (.txt)", "Input Salah", JOptionPane.ERROR_MESSAGE);
@@ -343,24 +336,30 @@ public class DESStreamCipher extends javax.swing.JFrame {
             }
         });
     }
-    
-    public String getFileExtension(File file){
+
+    public String getFileExtension(File file) {
         String fileName = file.getName();
-        if(fileName.lastIndexOf(".") > 0)
-        return fileName.substring(fileName.lastIndexOf("."));
-        else return "";
+        if (fileName.lastIndexOf(".") > 0) {
+            return fileName.substring(fileName.lastIndexOf("."));
+        } else {
+            return "";
+        }
     }
 
-    public void Enkripsi(File text, File key) {
-        String inDir = text.getAbsolutePath();
-        String outDir = inDir.substring(0, inDir.lastIndexOf(File.separator)) + File.separator + "resultGui" + getFileExtension(text);
-        doDES(text, key, outDir, 0);
+    public void Enkripsi(File file, File key) {
+        String inDir = file.getAbsolutePath();
+        String outDir = inDir.substring(0, inDir.lastIndexOf(File.separator)) + File.separator + "E_" + file.getName() + getFileExtension(file);
+        System.out.println("file name : " + file.getName());
+        System.out.println("key name : " + key.getName());
+        doDES(file, key, outDir, 0);
     }
 
-    public void Dekripsi(File text, File key) {
-        String inDir = text.getAbsolutePath();
-        String outDir = inDir.substring(0, inDir.lastIndexOf(File.separator)) + File.separator + "resultGui2" + getFileExtension(text);
-        doDES(text, key, outDir, 1);
+    public void Dekripsi(File file, File key) {
+        String inDir = file.getAbsolutePath();
+        String outDir = inDir.substring(0, inDir.lastIndexOf(File.separator)) + File.separator + "D_" + file.getName() + getFileExtension(file);
+        System.out.println("file name : " + file.getName());
+        System.out.println("key name : " + key.getName());
+        doDES(file, key, outDir, 1);
     }
 
     public void doDES(File file, File keyFile, String resultPath, int status) {
@@ -370,60 +369,42 @@ public class DESStreamCipher extends javax.swing.JFrame {
             return;
         }
 
-        //Handle input key
         try {
 
-            Path pathFile = Paths.get(file.getAbsolutePath());
-            byte[] bytes = Files.readAllBytes(pathFile);
-            StringBuilder sb = new StringBuilder();
-            for (byte b : bytes) {
-                sb.append(String.format("%02X", b));
-                System.out.print(b);
-            }
-            System.out.println();
+            if (status == 0) {
 
-            String input = sb.toString();
+                //membaca file
+                Path pathFile = Paths.get(file.getAbsolutePath());
+                byte[] bytesFile = Files.readAllBytes(pathFile);
 
-            // inputBits will store the 64 bits of the input as a an int array of
-            // size 64. This program uses int arrays to store bits, for the sake
-            // of simplicity. For efficient programming, use long data type. But
-            // it increases program complexity which is unnecessary for this
-            // context.
-            System.out.println(input);
-            Stack<String> stk = cutTo16Bytes(input);
-            Stack<int[]> inputBitsToProcess = new Stack();
-            while (!stk.isEmpty()){
-                    inputBitsToProcess.push(paddingZeroEachByte(stk.pop()));
-                }
-            
-            // Similar process is followed for the 16 bit key
-            System.out.println("Enter the key as a 16 character hexadecimal value:");
-            FileReader fileReader = new FileReader(keyFile);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String key = bufferedReader.readLine();
-            System.out.println(key);
+                //membaca key
+                Path pathKeyFile = Paths.get(keyFile.getAbsolutePath());
+                byte[] bytesKey = Files.readAllBytes(pathKeyFile);
 
-            if (key.length() != 16) {
-                JOptionPane.showMessageDialog(this, "Key harus berukuran 16 HEX", "Kesalahan panjang input key ", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            int keyBits[] = new int[64];
-            for (int i = 0; i < 16; i++) {
-                String s = Integer.toBinaryString(Integer.parseInt(key.charAt(i) + "", 16));
-                while (s.length() < 4) {
-                    s = "0" + s;
+                String input = convertBytestoHexa(bytesFile);
+                String key = convertBytestoHexa(bytesKey);
+                System.out.println("key :" + key);
+                System.out.println();
+
+                System.out.println(input);
+                Stack<String> stk = cutTo16Hexa(input);
+
+                //genarate input bit file untuk diproses
+                Stack<int[]> inputBitsToProcess = new Stack();
+                while (!stk.isEmpty()) {
+                    inputBitsToProcess.push(paddingZeroEachHexa(stk.pop()));
                 }
-                for (int j = 0; j < 4; j++) {
-                    keyBits[(4 * i) + j] = Integer.parseInt(s.charAt(j) + "");
+
+                System.out.println(key);
+                int[] keyBits = generate64BitKey(key);
+
+                System.out.println("enkripsi");
+                for (int i = 0; i < keyBits.length; i++) {
+                    int l = keyBits[i];
+                    System.out.print(l);
+                    
                 }
-            }
-            
-            if (status == 0){
-                
-                // permute(int[] inputBits, int[] keyBits, boolean isDecrypt)
-                // method is used here. This allows encryption and decryption to be
-                // done in the same method, reducing code.
-                System.out.println("\n+++ ENCRYPTION +++");
+                System.out.println("");
                 Stack<String> outputHexE = new Stack();
                 while (!inputBitsToProcess.isEmpty()) {
                     outputHexE.push(permute(inputBitsToProcess.pop(), keyBits, false));
@@ -433,81 +414,88 @@ public class DESStreamCipher extends javax.swing.JFrame {
                 while (!outputHexE.isEmpty()) {
                     eHex = eHex + outputHexE.pop();
                 }
-                
+
                 System.out.println("encrypted hex : " + eHex);
                 byte[] eb = hexStringToByteArray(eHex);
                 Path path1 = Paths.get(resultPath);
                 Files.write(path1, eb); //construct encrypted file
                 JOptionPane.showMessageDialog(this, "Enkripsi telah selesai", "Finish", JOptionPane.INFORMATION_MESSAGE);
-            }
-            else {
-                System.out.println("\n+++ DECRYPTION +++");
-                Stack<String> outputHexD = new Stack();
-                int[] x = inputBitsToProcess.peek();
-                for (int i : x){
-                    System.out.print(i);
+            } else {
+
+                //membaca file
+                Path pathFileD = Paths.get(file.getAbsolutePath());
+                byte[] bytesFileD = Files.readAllBytes(pathFileD);
+
+                //membaca key
+                Path pathKeyFileD = Paths.get(keyFile.getAbsolutePath());
+                byte[] bytesKeyD = Files.readAllBytes(pathKeyFileD);
+
+                String inputD = convertBytestoHexa(bytesFileD);
+                String keyD = convertBytestoHexa(bytesKeyD);
+                System.out.println("key :" + keyD);
+                System.out.println();
+
+                System.out.println(inputD);
+                Stack<String> stk = cutTo16Hexa(inputD);
+
+                //genarate input bit file untuk diproses
+                Stack<int[]> inputBitsToProcess = new Stack();
+                while (!stk.isEmpty()) {
+                    inputBitsToProcess.push(paddingZeroEachHexa(stk.pop()));
+                }
+
+                System.out.println(keyD);
+                int[] keyBitsD = generate64BitKey(keyD);
+                
+                System.out.println("dekripsi");
+                
+                for (int i = 0; i < keyBitsD.length; i++) {
+                    int l = keyBitsD[i];
+                    System.out.print(l);
+                    
                 }
                 System.out.println("");
-                
-                while (!inputBitsToProcess.isEmpty()){
-                    outputHexD.push(permute(inputBitsToProcess.pop(), keyBits, true));
+                Stack<String> outputHexD = new Stack();
+
+                while (!inputBitsToProcess.isEmpty()) {
+                    outputHexD.push(permute(inputBitsToProcess.pop(), keyBitsD, true));
                 }
-                
+
                 String dhex = "";
                 System.out.println(outputHexD.peek());
                 String temp = removePadding(outputHexD.pop());
                 outputHexD.push(temp);
-                while (!outputHexD.isEmpty()){
+                while (!outputHexD.isEmpty()) {
                     dhex = dhex + outputHexD.pop();
                 }
-                
-                
+
                 System.out.println("decrypted hex : " + dhex);
                 byte[] b = hexStringToByteArray(dhex);
-                
-                
+
                 Path path2 = Paths.get(resultPath);
-                Files.write(path2, b); //creates, overwrites
-                
-                for (byte bt : b){
+                Files.write(path2, b);
+
+                for (byte bt : b) {
                     System.out.print(bt);
                 }
                 System.out.println();
-                System.out.println(b[b.length-1]==bytes[bytes.length-1]);
-                
+                System.out.println(b[b.length - 1] == bytesFileD[bytesFileD.length - 1]);
+
                 StringBuilder sb2 = new StringBuilder();
-                    for (byte br : b) {
-                        sb2.append(String.format("%02X", br));
-                    }
-                    System.out.println();
-    
+                for (byte br : b) {
+                    sb2.append(String.format("%02X", br));
+                }
+                System.out.println();
+
                 System.out.println(sb2.toString());
                 JOptionPane.showMessageDialog(this, "Dekripsi telah selesai", "Finish", JOptionPane.INFORMATION_MESSAGE);
             }
-//            openFile(out1);
-//            openFile(out2);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void openFile(File file) {
-        if (!Desktop.isDesktopSupported()) {
-            System.err.println("Desktop not supported");
-        }
-
-        Desktop desktop = Desktop.getDesktop();
-        if (!desktop.isSupported(Desktop.Action.EDIT)) {
-            System.err.println("EDIT not supported");
-        }
-
-        try {
-            desktop.edit(new File(file.getAbsolutePath()));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CiphertextLabel;
@@ -526,4 +514,8 @@ public class DESStreamCipher extends javax.swing.JFrame {
     private javax.swing.JLabel keyDecryptLabel;
     private javax.swing.JButton plaintextButton;
     // End of variables declaration//GEN-END:variables
+
+    private int[] genarate64BitKey(String key) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
