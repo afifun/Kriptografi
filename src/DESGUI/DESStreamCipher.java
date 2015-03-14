@@ -86,7 +86,7 @@ public class DESStreamCipher extends javax.swing.JFrame {
             }
         });
 
-        PlaintextLabel.setText("Input plaintext file");
+        PlaintextLabel.setText("Input file to encrypt");
         PlaintextLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         KeyEncryptLabel.setText("Input key file");
@@ -102,7 +102,7 @@ public class DESStreamCipher extends javax.swing.JFrame {
         });
 
         plaintextButton.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
-        plaintextButton.setText("Input Plaintext");
+        plaintextButton.setText("Input File");
         plaintextButton.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         plaintextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,14 +110,14 @@ public class DESStreamCipher extends javax.swing.JFrame {
             }
         });
 
-        copyrightLabelEnkripsi.setText("@author : Moh. Afifun Naily & Haris Dwi Prakoso");
+        copyrightLabelEnkripsi.setText("Developed By : Moh. Afifun Naily & Haris Dwi Prakoso");
 
         javax.swing.GroupLayout EncryptionPanelLayout = new javax.swing.GroupLayout(EncryptionPanel);
         EncryptionPanel.setLayout(EncryptionPanelLayout);
         EncryptionPanelLayout.setHorizontalGroup(
             EncryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EncryptionPanelLayout.createSequentialGroup()
-                .addContainerGap(52, Short.MAX_VALUE)
+                .addContainerGap(78, Short.MAX_VALUE)
                 .addGroup(EncryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(encryptionButton)
                     .addGroup(EncryptionPanelLayout.createSequentialGroup()
@@ -152,13 +152,13 @@ public class DESStreamCipher extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("DES Encryption", EncryptionPanel);
 
-        CiphertextLabel.setText("Input ciphertext file");
+        CiphertextLabel.setText("Input file to decrypt");
         CiphertextLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         keyDecryptLabel.setText("Input key file");
         keyDecryptLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        ciphertextButton.setText("Input Ciphertext");
+        ciphertextButton.setText("Input File");
         ciphertextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ciphertextButtonActionPerformed(evt);
@@ -179,7 +179,7 @@ public class DESStreamCipher extends javax.swing.JFrame {
             }
         });
 
-        CopyrightLabelDekripsi.setText("@author : Moh. Afifun Naily & Haris Dwi Prakoso");
+        CopyrightLabelDekripsi.setText("Developed By : Moh. Afifun Naily & Haris Dwi Prakoso");
 
         javax.swing.GroupLayout DecryptionPanelLayout = new javax.swing.GroupLayout(DecryptionPanel);
         DecryptionPanel.setLayout(DecryptionPanelLayout);
@@ -197,7 +197,7 @@ public class DESStreamCipher extends javax.swing.JFrame {
                         .addGroup(DecryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(ciphertextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(keyDecryptButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(108, Short.MAX_VALUE))
+                .addContainerGap(142, Short.MAX_VALUE))
             .addGroup(DecryptionPanelLayout.createSequentialGroup()
                 .addComponent(CopyrightLabelDekripsi)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -356,7 +356,7 @@ public class DESStreamCipher extends javax.swing.JFrame {
 
     public void Dekripsi(File file, File key) {
         String inDir = file.getAbsolutePath();
-        String outDir = inDir.substring(0, inDir.lastIndexOf(File.separator)) + File.separator + "D_" + file.getName() + getFileExtension(file);
+        String outDir = inDir.substring(0, inDir.lastIndexOf(File.separator)) + File.separator + "D_" + file.getName();
         System.out.println("file name : " + file.getName());
         System.out.println("key name : " + key.getName());
         doDES(file, key, outDir, 1);

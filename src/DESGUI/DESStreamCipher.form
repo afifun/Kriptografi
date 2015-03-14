@@ -53,7 +53,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="52" max="32767" attributes="0"/>
+                      <EmptySpace pref="78" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="encryptionButton" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
@@ -113,7 +113,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="PlaintextLabel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Input plaintext file"/>
+                <Property name="text" type="java.lang.String" value="Input file to encrypt"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                     <LineBorder/>
@@ -152,7 +152,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Comic Sans MS" size="11" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Input Plaintext"/>
+                <Property name="text" type="java.lang.String" value="Input File"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                     <TitledBorder/>
@@ -165,7 +165,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="copyrightLabelEnkripsi">
               <Properties>
-                <Property name="text" type="java.lang.String" value="@author : Moh. Afifun Naily &amp; Haris Dwi Prakoso"/>
+                <Property name="text" type="java.lang.String" value="Developed By : Moh. Afifun Naily &amp; Haris Dwi Prakoso"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -198,7 +198,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="108" max="32767" attributes="0"/>
+                      <EmptySpace pref="142" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="CopyrightLabelDekripsi" min="-2" max="-2" attributes="0"/>
@@ -230,7 +230,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="CiphertextLabel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Input ciphertext file"/>
+                <Property name="text" type="java.lang.String" value="Input file to decrypt"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                     <LineBorder/>
@@ -250,7 +250,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="ciphertextButton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Input Ciphertext"/>
+                <Property name="text" type="java.lang.String" value="Input File"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ciphertextButtonActionPerformed"/>
@@ -274,7 +274,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="CopyrightLabelDekripsi">
               <Properties>
-                <Property name="text" type="java.lang.String" value="@author : Moh. Afifun Naily &amp; Haris Dwi Prakoso"/>
+                <Property name="text" type="java.lang.String" value="Developed By : Moh. Afifun Naily &amp; Haris Dwi Prakoso"/>
               </Properties>
             </Component>
           </SubComponents>
