@@ -352,13 +352,15 @@ public class DESStreamCipher extends javax.swing.JFrame {
     }
 
     public void Enkripsi(File text, File key) {
-        String homedir = System.getProperty("user.home") + "/resultGui" + getFileExtension(text);
-        doDES(text, key, homedir, 0);
+        String inDir = text.getAbsolutePath();
+        String outDir = inDir.substring(0, inDir.lastIndexOf(File.separator)) + File.separator + "resultGui" + getFileExtension(text);
+        doDES(text, key, outDir, 0);
     }
 
     public void Dekripsi(File text, File key) {
-        String homedir = System.getProperty("user.home") + "/resultGui2" + getFileExtension(text);
-        doDES(text, key, homedir, 1);
+        String inDir = text.getAbsolutePath();
+        String outDir = inDir.substring(0, inDir.lastIndexOf(File.separator)) + File.separator + "resultGui2" + getFileExtension(text);
+        doDES(text, key, outDir, 1);
     }
 
     public void doDES(File file, File keyFile, String resultPath, int status) {
